@@ -7,11 +7,17 @@ import {recieveDecks} from '../actions'
 class DeckList extends Component {
 
   componentDidMount() {
-    getDecks().then(decks => this.props.recieveAllDecks(decks))
+    // getDecks().then(decks => {
+    //   console.log('componentDidMount=>',decks)
+    //   this
+    //     .props
+    //     .recieveAllDecks(decks)
+    // })
   }
 
   render() {
-    const {decks} = this.props
+    // const {decks} = this.props
+    const decks = getData()
     return (
       <View style={styles.container}>
         {Object
