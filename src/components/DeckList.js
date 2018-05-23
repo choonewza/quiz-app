@@ -1,28 +1,37 @@
-import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button } from 'react-native'
-import { getData } from '../utils/api'
+import React, {Component} from 'react'
+import {StyleSheet, Text, View, Button} from 'react-native'
+import {getData, getDecks} from '../utils/api'
+import {connect} from 'react-redux'
+import {recieveDecks} from '../actions'
 
 class DeckList extends Component {
+
+  componentDidMount() {
+    getDecks().then(decks => this.props.recieveAllDecks(decks))
+  }
+
   render() {
-    const decks = getData()
+    const {decks} = this.props
     return (
-      <View style={ styles.container }>
-        { Object.keys(decks).map((deck) => {
+      <View style={styles.container}>
+        {Object
+          .keys(decks)
+          .map((deck) => {
             const {title, questions} = decks[deck]
             return (
-              <View key={ deck }>
+              <View key={deck}>
                 <Text>
-                  { title }
+                  {title}
                 </Text>
                 <Text>
-                  { questions.length }
+                  {questions.length}
                 </Text>
-                <Button onPress={ () => this.props.navigation.navigate('DeckView', {
-                                    entryId: deck
-                                  }) } title="view deck"></Button>
+                <Button
+                  onPress={() => this.props.navigation.navigate('DeckView', {entryId: deck})}
+                  title="view deck"></Button>
               </View>
             )
-          }) }
+          })}
       </View>
     )
   }
@@ -33,7 +42,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
-  },
+  }
 });
 
-export default  DeckList
+function mapDispatchToProps(dispatch) {
+  return {
+    recieveAllDecks: (decks) => dispatch(recieveDecks(decks))
+  }
+}
+
+function mapStateToProps(decks) {
+  return decks
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeckList)

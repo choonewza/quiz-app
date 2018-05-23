@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native'
+import {AsyncStorage} from 'react-native'
 
 const FLASHCARDS_STORAGE_KEY = 'flashcards: decks'
 
@@ -38,21 +38,23 @@ export const getData = () => {
     return initialData
 }
 
-export const getDecks(deck) {
+export const getDecks = () => {
     return AsyncStorage
         .getItem(FLASHCARDS_STORAGE_KEY)
-        .then(result => {
-            if (results === null) {
+        .then(results => {
+            if (results === null || true) {
+                console.log('GetDecks-TRUE=>',results)
                 AsyncStorage.setItem(FLASHCARDS_STORAGE_KEY, JSON.stringify(initialData))
                 return initialData
             } else {
+                console.log('GetDecks-FALSE=>',results)
                 return JSON.parse(results)
             }
         })
 }
 
-export function saveDeckTitle(title) {
-    return AsyncStorage.getItem(FLASHCARDS_STORAGE_KEY, JSON.stringify({
+export const saveDeckTitle = (title) => {
+    return AsyncStorage.mergeItem(FLASHCARDS_STORAGE_KEY, JSON.stringify({
         [title]: {
             title: title,
             questions: []
