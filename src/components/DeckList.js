@@ -7,12 +7,12 @@ import {recieveDecks} from '../actions'
 class DeckList extends Component {
 
   componentDidMount() {
-    // getDecks().then(decks => {
-    //   console.log('componentDidMount=>',decks)
-    //   this
-    //     .props
-    //     .recieveAllDecks(decks)
-    // })
+    getDecks().then(decks => {
+      console.log('componentDidMount=>',decks)
+      this
+        .props
+        .recieveAllDecks(decks)
+    })
   }
 
   render() {
@@ -58,6 +58,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(decks) {
+  console.log("DeckList-mapStateToProps()=>",decks)
   return decks
 }
 
