@@ -1,8 +1,9 @@
+import {applyMiddleware, createStore} from 'redux'
 import {createBottomTabNavigator, createStackNavigator} from 'react-navigation'
-import {createStore} from 'redux'
 import {FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons'
 import {Provider} from 'react-redux'
 import {StyleSheet, Text, View, Platform} from 'react-native';
+import logger from 'redux-logger';
 import React from 'react';
 
 import {purple, white} from './src/utils/colors'
@@ -66,10 +67,13 @@ const MainNavigator = createStackNavigator({
   }
 })
 
+
+const store = createStore(reducer, applyMiddleware(logger))
+
 export default class App extends React.Component {
   render() {
     return (
-      <Provider store={createStore(reducer)}>
+      <Provider store={store}>
         <View style={styles.container}>
           <MainNavigator/>
         </View>

@@ -43,11 +43,9 @@ export const getDecks = () => {
         .getItem(FLASHCARDS_STORAGE_KEY)
         .then(results => {
             if (results === null) {
-                // console.log('GetDecks-TRUE=>',results)
                 AsyncStorage.setItem(FLASHCARDS_STORAGE_KEY, JSON.stringify(initialData))
                 return initialData
             } else {
-                // console.log('GetDecks-FALSE=>',results)
                 return JSON.parse(results)
             }
         })
