@@ -8,7 +8,7 @@ class DeckList extends Component {
 
   componentDidMount() {
     getDecks().then(decks => {
-      console.log('componentDidMount=>',decks)
+      // console.log('componentDidMount=>',decks)
       this
         .props
         .recieveAllDecks(decks)
@@ -16,8 +16,8 @@ class DeckList extends Component {
   }
 
   render() {
-    // const {decks} = this.props
-    const decks = getData()
+    const {decks} = this.props
+    // const decks = getData()
     return (
       <View style={styles.container}>
         {Object
@@ -58,8 +58,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(decks) {
-  console.log("DeckList-mapStateToProps()=>",decks)
-  return decks
+  return {decks}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeckList)

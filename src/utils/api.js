@@ -42,12 +42,12 @@ export const getDecks = () => {
     return AsyncStorage
         .getItem(FLASHCARDS_STORAGE_KEY)
         .then(results => {
-            if (results === null || true) {
-                console.log('GetDecks-TRUE=>',results)
+            if (results === null) {
+                // console.log('GetDecks-TRUE=>',results)
                 AsyncStorage.setItem(FLASHCARDS_STORAGE_KEY, JSON.stringify(initialData))
                 return initialData
             } else {
-                console.log('GetDecks-FALSE=>',results)
+                // console.log('GetDecks-FALSE=>',results)
                 return JSON.parse(results)
             }
         })
@@ -60,4 +60,17 @@ export const saveDeckTitle = (title) => {
             questions: []
         }
     }))
+}
+
+export const addCardToDeck = (name, card) => {
+    return AsyncStorage
+        .getItem(FLASHCARDS_STORAGE_KEY)
+        .then(results => JSON.parse(results))
+        .then(results => {
+            results[name]
+                .questions
+                .push(card)
+            AsyncStorage.setItem(FLASHCARDS_STORAGE_KEY, JSON.stringify(results))
+            return results
+        })
 }
