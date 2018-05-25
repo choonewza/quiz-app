@@ -11,7 +11,9 @@ import AddCard from './src/components/AddCard'
 import AddDeck from './src/components/AddDeck'
 import DeckList from './src/components/DeckList'
 import DeckView from './src/components/DeckView'
+import Quiz from './src/components/Quiz'
 import reducer from './src/reducers'
+import StatusBar from './src/components/StatusBar'
 
 const Tabs = createBottomTabNavigator({
   DeckList: {
@@ -64,9 +66,18 @@ const MainNavigator = createStackNavigator({
         backgroundColor: purple
       }
     }
-  }
+  },
+  Quiz:{
+    screen: Quiz,
+    navigationOptions: {
+      title: 'Quiz',
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple
+      }
+    }
+  },
 })
-
 
 const store = createStore(reducer, applyMiddleware(logger))
 
@@ -75,6 +86,7 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <View style={styles.container}>
+          <StatusBar backgroundColor={purple} barStyle='light-content'/>
           <MainNavigator/>
         </View>
       </Provider>

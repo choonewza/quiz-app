@@ -13,6 +13,7 @@ import React, {Component} from 'react'
 import {addCard} from '../actions'
 import {addCardToDeck} from '../utils/api'
 import {orange, white} from '../utils/colors'
+import SubmitButton from './SubmitButton'
 
 class AddCard extends Component {
 
@@ -24,15 +25,17 @@ class AddCard extends Component {
     submitCard = (deck) => {
         const {question, answer, correctAnswer} = this.state
 
-        this
-            .props
-            .dispatch(addCard({question, answer, correctAnswer, deck}))
-        addCardToDeck(deck, {question, answer, correctAnswer})
-        this.setState({question: '', answer: '', correctAnswer: ''})
-        this
-            .props
-            .navigation
-            .dispatch(NavigationActions.back({key: null}))
+        if (question && answer) {
+            this
+                .props
+                .dispatch(addCard({question, answer, correctAnswer, deck}))
+            addCardToDeck(deck, {question, answer, correctAnswer})
+            this.setState({question: '', answer: '', correctAnswer: ''})
+            this
+                .props
+                .navigation
+                .dispatch(NavigationActions.back({key: null}))
+        }
     }
     render() {
         const deckName = this.props.navigation.state.params.entryId
@@ -57,11 +60,7 @@ class AddCard extends Component {
                         onChangeText={(correctAnswer) => this.setState({correctAnswer})}
                         value={this.state.correctAnswer}></TextInput>
 
-                    <TouchableOpacity
-                        style={styles.submitBtn}
-                        onPress={() => this.submitCard(deckName)}>
-                        <Text style={styles.submitBtnText}>Submit!</Text>
-                    </TouchableOpacity>
+                    <SubmitButton styles={styles} onPress={() => this.submitCard(deckName)}/>
                 </View>
             </KeyboardAvoidingView >
         )

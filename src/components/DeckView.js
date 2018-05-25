@@ -2,7 +2,7 @@ import {connect} from 'react-redux'
 import {StyleSheet, Text, View} from 'react-native'
 import React, {Component} from 'react'
 
-import {purple, white, red} from '../utils/colors'
+import {purple, white, red, orange} from '../utils/colors'
 import {getData} from '../utils/api'
 import ActionButton from './ActionButton'
 
@@ -12,34 +12,31 @@ class DeckView extends Component {
         const {decks} = this.props
         return (
             <View style={styles.container}>
-                <Text>
-                    {decks[deck].title}
-                </Text>
-                <Text>
-                    {decks[deck].questions.length}
-                </Text>
+                <View style={styles.card}>
+                    <Text style={styles.mainText}>
+                        {decks[deck].title}
+                    </Text>
+                    <Text style={styles.subText}>
+                        {decks[deck].questions.length}
+                    </Text>
 
-                <ActionButton
-                    styles={styles}
-                    text={'Add Card'}
-                    color={purple}
-                    onPress={() => this.props.navigation.navigate('AddCard', {entryId: deck})}/>
-                <ActionButton
-                    styles={styles}
-                    text={'Start Quiz'}
-                    color={red}
-                    onPress={() => this.props.navigation.navigate('Quiz', {entryId: deck})}/>
+                    <ActionButton
+                        styles={actionBtnStyle}
+                        text={'Add Card'}
+                        color={purple}
+                        onPress={() => this.props.navigation.navigate('AddCard', {entryId: deck})}/>
+                    <ActionButton
+                        styles={actionBtnStyle}
+                        text={'Start Quiz'}
+                        color={red}
+                        onPress={() => this.props.navigation.navigate('Quiz', {entryId: deck})}/>
+                </View>
             </View>
         )
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
+const actionBtnStyle = StyleSheet.create({
     iosBtn: {
         padding: 10,
         borderRadius: 7,
@@ -51,6 +48,39 @@ const styles = StyleSheet.create({
         color: white,
         fontSize: 22,
         textAlign: 'center'
+    }
+})
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    card: {
+        flex: 1, 
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'stretch',
+        backgroundColor: orange,
+        margin: 10,
+        borderRadius: 10,
+        shadowColor: 'rgba(0,0,0,0.34)',
+        shadowOffset: {
+            width: 0,
+            height: 3
+        },
+        shadowRadius: 4,
+        shadowOpacity: 1
+    },
+    mainText: {
+        color: white,
+        fontSize: 40
+    },
+    subText: {
+        color: white,
+        fontSize: 30,
+        marginBottom: 160
     }
 });
 

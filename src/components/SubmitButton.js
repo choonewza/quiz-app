@@ -3,10 +3,10 @@ import {Text, TouchableOpacity} from 'react-native'
 
 export default class SubmitButton extends Component {
     render() {
-        const {onPress, style, text, color} = this.props
+        const {onPress, styles} = this.props
         return (
-            <TouchableOpacity onPress={onPress}>
-                <Text style={style}>{text}</Text>
+            <TouchableOpacity style={styles.submitBtn} onPress={onPress}>
+                <Text style={styles.submitBtnText}>Submit</Text>
             </TouchableOpacity>
         )
     }

@@ -1,8 +1,11 @@
-import React, {Component} from 'react'
-import {StyleSheet, Text, View, Button, TextInput} from 'react-native'
-import {saveDeckTitle} from '../utils/api'
 import {connect} from 'react-redux'
+import {StyleSheet, Text, View, Button, TextInput} from 'react-native'
+import React, {Component} from 'react'
+
 import {addDeck} from '../actions'
+import {orange, white} from '../utils/colors'
+import {saveDeckTitle} from '../utils/api'
+import SubmitButton from './SubmitButton'
 
 class AddDeck extends Component {
 
@@ -13,15 +16,17 @@ class AddDeck extends Component {
     submitName = () => {
         const {text} = this.state
 
-        saveDeckTitle(text)
-        this
-            .props
-            .dispatch(addDeck(text))
-        this
-            .props
-            .navigation
-            .navigate('DeckView', {entryId: text})
-        this.setState({text: ''})
+        if (this.state.text) {
+            saveDeckTitle(text)
+            this
+                .props
+                .dispatch(addDeck(text))
+            this
+                .props
+                .navigation
+                .navigate('DeckView', {entryId: text})
+            this.setState({text: ''})
+        }
     }
 
     render() {
@@ -32,7 +37,8 @@ class AddDeck extends Component {
                     style={styles.input}
                     onChangeText={(text) => this.setState({text: text})}
                     value={this.state.text}></TextInput>
-                <Button style={styles.submitBtn} onPress={this.submitName} title='Submit'></Button>
+
+                <SubmitButton styles={styles} onPress={() => this.submitName()}/>
             </View>
         )
     }
@@ -55,14 +61,21 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 30,
-        color: '#333'
+        color: '#333',
+        textAlign: 'center'
     },
     submitBtn: {
         borderWidth: 0.5,
         borderColor: '#d6d7da',
         padding: 10,
+        backgroundColor: orange,
         borderRadius: 7,
         overflow: 'hidden'
+    },
+    submitBtnText: {
+        color: white,
+        fontSize: 22,
+        textAlign: 'center'
     }
 });
 
