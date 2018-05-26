@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "Quiz",
+    "icon": "./src/icons/icon.png",
+    "version": "1.0.0",
+    "slug": "quiz-app",
+    "sdkVersion": "27.0.0",
+    "ios": {
+      "bundleIdentifier": "com.choonewza.quizapp"
+    },
+    "android": {
+      "package": "com.choonewza.quizapp"
+    }
   }
 }
