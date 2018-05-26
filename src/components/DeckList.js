@@ -1,10 +1,11 @@
-import React, {Component} from 'react'
-import {StyleSheet, Text, View, Button, ScrollView} from 'react-native'
-import {getData, getDecks} from '../utils/api'
-import {connect} from 'react-redux'
-import {recieveDecks} from '../actions'
-import {orange, white, blue} from '../utils/colors'
+import React, { Component } from 'react'
+import { StyleSheet, Text, View, Button, ScrollView } from 'react-native'
+import { getData, getDecks } from '../utils/api'
+import { connect } from 'react-redux'
+import { recieveDecks } from '../actions'
+import { orange, white, blue } from '../utils/colors'
 import ActionButton from './ActionButton'
+import { getCardsLength } from '../utils/helpers'
 
 class DeckList extends Component {
 
@@ -20,30 +21,25 @@ class DeckList extends Component {
     render() {
         const {decks} = this.props
         return (
-            <ScrollView>
-                <View style={styles.container}>
-                    {Object
-                        .keys(decks)
-                        .map((deck) => {
-                            const {title, questions} = decks[deck]
-                            return (
-                                <View key={deck} style={styles.card}>
-                                    <Text style={styles.cardText}>
-                                        {title}
-                                    </Text>
-                                    <Text style={styles.cardText}>
-                                        {questions.length}
-                                    </Text>
-        
-                                    <ActionButton
-                                        styles={actionBtnStyle}
-                                        text={'View Deck'}
-                                        color={blue}
-                                        onPress={() => this.props.navigation.navigate('DeckView', {entryId: deck})}/>
-                                </View>
-                            )
-                        })}
-                </View>
+            <ScrollView style={ styles.container }>
+              { Object
+                    .keys(decks)
+                    .map((deck) => {
+                        const {title, questions} = decks[deck]
+                        return (
+                            <View key={ deck } style={ styles.card }>
+                              <Text style={ styles.cardText }>
+                                { title }
+                              </Text>
+                              <Text style={ styles.cardText }>
+                                { questions ? getCardsLength(questions) : null }
+                              </Text>
+                              <ActionButton styles={ actionBtnStyle } text={ 'View Deck' } color={ blue } onPress={ () => this.props.navigation.navigate('DeckView', {
+                                                                                                                        entryId: deck
+                                                                                                                    }) } />
+                            </View>
+                        )
+                    }) }
             </ScrollView>
         )
     }
@@ -104,7 +100,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({decks}) {
-    return {decks}
+    return {
+        decks
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeckList)

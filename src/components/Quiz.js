@@ -1,19 +1,10 @@
-import {connect} from 'react-redux'
-import {NavigationActions} from 'react-navigation'
-import React, {Component} from 'react'
+import { connect } from 'react-redux'
+import { NavigationActions } from 'react-navigation'
+import React, { Component } from 'react'
 
-import {
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-    TextInput,
-    KeyboardAvoidingView,
-    Image,
-    Animated
-} from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, Image, Animated} from 'react-native'
 
-import {purple, white, red, orange, green} from '../utils/colors'
+import { purple, white, red, orange, green } from '../utils/colors'
 import ActionButton from './ActionButton'
 import Info from './Info'
 
@@ -24,7 +15,8 @@ class Quiz extends Component {
         correct: 0,
         incorrect: 0,
         animation: new Animated.Value(0.5),
-        rotate: new Animated.Value(0)
+        rotate: new Animated.Value(0),
+        colorChange: new Animated.Value(0)
     }
 
     showAnswer = () => {
@@ -49,7 +41,7 @@ class Quiz extends Component {
             }))
         } else {
             this.setState((state, props) => ({
-                correct: state.incorrect + 1
+                incorrect: state.incorrect + 1
             }))
         }
 
@@ -66,32 +58,46 @@ class Quiz extends Component {
     handleAnimation = () => {
         Animated
             .spring(this.state.animation, {
-            toValue: 1.1,
-            friction: 2,
-            tension: 360,
-            duration: 1000
-        })
+                toValue: 1.1,
+                friction: 2,
+                tension: 360,
+                duration: 1000
+            })
             .start(() => {
                 Animated
                     .spring(this.state.animation, {
-                    toValue: 1,
-                    duration: 100
-                })
+                        toValue: 1,
+                        duration: 100
+                    })
                     .start()
             })
 
         Animated
             .timing(this.state.rotate, {
-            toValue: 360,
-            duration: 1500,
-            delay: 1000
-        })
+                toValue: 360,
+                duration: 1500,
+                delay: 1000
+            })
             .start(() => {
                 Animated
                     .timing(this.state.rotate, {
-                    toValue: 0,
-                    duration: 1000
-                })
+                        toValue: 0,
+                        duration: 1000
+                    })
+                    .start()
+            })
+
+        Animated
+            .timing(this.state.colorChange, {
+                toValue: 1,
+                duration: 1500
+            })
+            .start(() => {
+                Animated
+                    .timing(this.state.colorChange, {
+                        toValue: 0,
+                        duration: 1500
+                    })
                     .start()
             })
     }
@@ -106,7 +112,9 @@ class Quiz extends Component {
     }
 
     goBack = () => {
-        this.props.navigation.dispatch(NavigationActions.back({key: null}))
+        this.props.navigation.dispatch(NavigationActions.back({
+            key: null
+        }))
     }
 
     render() {
@@ -135,7 +143,7 @@ class Quiz extends Component {
                 outputRange: ["0deg", "1080deg"]
             })
 
-        const rotateStyle = {
+        const rotateAnimatedStyle = {
             transform: [
                 {
                     rotate: rotateInterpolate
@@ -143,67 +151,66 @@ class Quiz extends Component {
             ]
         }
 
+        const boxInterpolate = this
+            .state
+            .colorChange
+            .interpolate({
+                inputRange: [
+                    0, 1
+                ],
+                outputRange: ["rgba(242,111,40,1)", "rgba(185,63,179,1)"]
+            })
+
+        const boxAnimatedStyle = {
+            backgroundColor: boxInterpolate
+        }
+
         if (questionNumber === questionModels.length) {
             return (
-                <View style={styles.container}>
-                    <View style={styles.card}>
-
-                        <Animated.View style={animatedStyle}>
-                            <Text style={styles.mainText}>You got {this.state.correct}
-                                out of {questionModels.length}!</Text>
+                <View style={ styles.container }>
+                  <Animated.View style={ [styles.card, boxAnimatedStyle] }>
+                    <Animated.View style={ animatedStyle }>
+                      <Text style={ styles.mainText }>You got { this.state.correct } out of { questionModels.length }!</Text>
+                    </Animated.View>
+                    { this.state.correct > this.state.incorrect
+                      ? <Animated.View style={ rotateAnimatedStyle }>
+                          <Image style={ styles.image } source={ require('../img/happy.png') } />
                         </Animated.View>
-
-                        {this.state.correct > this.state.incorrect
-                            ? <Animated.View style={rotateStyle}><Image style={styles.image} source={require('../img/happy.png')}/></Animated.View>
-                            : <Animated.View style={rotateStyle}><Image style={styles.image} source={require('../img/sad.png')}/></Animated.View>
-}
-
-                        <View>
-                            <ActionButton
-                                styles={actionBtnStyle}
-                                text={'Try Again'}
-                                color={purple}
-                                onPress={this.replayQuiz}/>
-                            <ActionButton
-                                styles={actionBtnStyle}
-                                text={'Back'}
-                                color={green}
-                                onPress={this.goBack}/>
-                        </View>
+                      : <Animated.View style={ rotateAnimatedStyle }>
+                          <Image style={ styles.image } source={ require('../img/sad.png') } />
+                        </Animated.View> }
+                    <View>
+                      <ActionButton styles={ actionBtnStyle } text={ 'Try Again' } color={ purple } onPress={ this.replayQuiz } />
+                      <ActionButton styles={ actionBtnStyle } text={ 'Back' } color={ green } onPress={ this.goBack } />
                     </View>
+                  </Animated.View>
                 </View>
             )
         }
 
         const questionModel = questionModels[questionNumber]
-
         return (
-            <View style={styles.container}>
-                <View style={styles.card}>
-                    <Text style={styles.questions}>{number}
-                        / {questionModels.length}</Text>
-
-                    {!this.state.showQuestion
-                        ? <Text style={styles.mainText}>{questionModel.question}</Text>
-                        : <Text style={styles.mainText}>{questionModel.answer}</Text>}
-
-                    {!this.state.showQuestion
-                        ? <Info style={styles.answer} onPress={this.showAnswer}>Show Answer</Info>
-                        : <Info style={styles.answer} onPress={this.showAnswer}>Show Question</Info>}
-
-                    <View>
-                        <ActionButton
-                            styles={actionBtnStyle}
-                            text={'Correct'}
-                            color={green}
-                            onPress={() => this.submitAnswer('true')}/>
-                        <ActionButton
-                            styles={actionBtnStyle}
-                            text={'Incorrect'}
-                            color={red}
-                            onPress={() => this.submitAnswer('false')}/>
-                    </View>
+            <View style={ styles.container }>
+              <View style={ styles.card }>
+                <Text style={ styles.questions }>
+                  { number } /
+                  { questionModels.length }
+                </Text>
+                { !this.state.showQuestion
+                  ? <Text style={ styles.mainText }>
+                      { questionModel.question }
+                    </Text>
+                  : <Text style={ styles.mainText }>
+                      { questionModel.answer }
+                    </Text> }
+                { !this.state.showQuestion
+                  ? <Info style={ styles.answer } onPress={ this.showAnswer }>Show Answer</Info>
+                  : <Info style={ styles.answer } onPress={ this.showAnswer }>Show Question</Info> }
+                <View>
+                  <ActionButton styles={ actionBtnStyle } text={ 'Correct' } color={ green } onPress={ () => this.submitAnswer('true') } />
+                  <ActionButton styles={ actionBtnStyle } text={ 'Incorrect' } color={ red } onPress={ () => this.submitAnswer('false') } />
                 </View>
+              </View>
             </View>
         )
     }
@@ -273,7 +280,9 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps({decks}) {
-    return {decks}
+    return {
+        decks
+    }
 }
 
 export default connect(mapStateToProps)(Quiz)

@@ -14,6 +14,7 @@ import DeckView from './src/components/DeckView'
 import Quiz from './src/components/Quiz'
 import reducer from './src/reducers'
 import StatusBar from './src/components/StatusBar'
+import { setLocalNotification, clearLocalNotification } from './src/utils/helpers'
 
 const Tabs = createBottomTabNavigator({
   DeckList: {
@@ -82,6 +83,13 @@ const MainNavigator = createStackNavigator({
 const store = createStore(reducer, applyMiddleware(logger))
 
 export default class App extends React.Component {
+
+  componentDidMount(){
+    console.log('---App.componentDidMount---')
+    // clearLocalNotification();
+    setLocalNotification()
+  }
+
   render() {
     return (
       <Provider store={store}>
@@ -90,7 +98,6 @@ export default class App extends React.Component {
           <MainNavigator/>
         </View>
       </Provider>
-
     );
   }
 }

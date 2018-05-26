@@ -5,11 +5,13 @@ import React, {Component} from 'react'
 import {purple, white, red, orange} from '../utils/colors'
 import {getData} from '../utils/api'
 import ActionButton from './ActionButton'
+import {getCardsLength} from '../utils/helpers'
 
 class DeckView extends Component {
     render() {
         const deck = this.props.navigation.state.params.entryId
         const {decks} = this.props
+        const questions = decks[deck].questions 
         return (
             <View style={styles.container}>
                 <View style={styles.card}>
@@ -17,7 +19,7 @@ class DeckView extends Component {
                         {decks[deck].title}
                     </Text>
                     <Text style={styles.subText}>
-                        {decks[deck].questions.length}
+                        {questions ? getCardsLength(questions) : null}
                     </Text>
 
                     <ActionButton
