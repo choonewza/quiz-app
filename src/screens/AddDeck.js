@@ -5,7 +5,7 @@ import React, {Component} from 'react'
 import {addDeck} from '../actions'
 import {orange, white} from '../utils/colors'
 import {saveDeckTitle} from '../utils/api'
-import SubmitButton from './SubmitButton'
+import SubmitButton from '../components/SubmitButton'
 
 class AddDeck extends Component {
 

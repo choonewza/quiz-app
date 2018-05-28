@@ -1,12 +1,11 @@
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, Image, Animated} from 'react-native'
 import React, { Component } from 'react'
 
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, Image, Animated} from 'react-native'
-
 import { purple, white, red, orange, green } from '../utils/colors'
-import ActionButton from './ActionButton'
-import Info from './Info'
+import ActionButton from '../components/ActionButton'
+import Info from '../components/Info'
 
 class Quiz extends Component {
     state = {
@@ -174,10 +173,10 @@ class Quiz extends Component {
                     </Animated.View>
                     { this.state.correct > this.state.incorrect
                       ? <Animated.View style={ rotateAnimatedStyle }>
-                          <Image style={ styles.image } source={ require('../img/happy.png') } />
+                          <Image style={ styles.image } source={ require('../assets/img/happy.png') } />
                         </Animated.View>
                       : <Animated.View style={ rotateAnimatedStyle }>
-                          <Image style={ styles.image } source={ require('../img/sad.png') } />
+                          <Image style={ styles.image } source={ require('../assets/img/sad.png') } />
                         </Animated.View> }
                     <View>
                       <ActionButton styles={ actionBtnStyle } text={ 'Try Again' } color={ purple } onPress={ this.replayQuiz } />

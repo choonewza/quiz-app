@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button, ScrollView } from 'react-native'
-import { getData, getDecks } from '../utils/api'
 import { connect } from 'react-redux'
-import { recieveDecks } from '../actions'
-import { orange, white, blue } from '../utils/colors'
-import ActionButton from './ActionButton'
+import { StyleSheet, Text, View, Button, ScrollView } from 'react-native'
+import React, { Component } from 'react'
+
 import { getCardsLength } from '../utils/helpers'
+import { getData, getDecks } from '../utils/api'
+import { orange, white, blue } from '../utils/colors'
+import { recieveDecks } from '../actions'
+import ActionButton from '../components/ActionButton'
 
 class DeckList extends Component {
 

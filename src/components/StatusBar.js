@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import {StyleSheet, Text, View, Platform} from 'react-native';
-import ReactNative from 'react-native'
 import { Constants } from 'expo'
+import {StyleSheet, Text, View, Platform} from 'react-native';
+import React, { Component } from 'react'
+import ReactNative from 'react-native'
 
 export default class StatusBar extends Component {
   render() {

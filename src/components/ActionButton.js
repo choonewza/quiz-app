@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
 import {Text, TouchableOpacity} from 'react-native'
+import React, {Component} from 'react'
 
 export default class ActionButton extends Component {
   render() {

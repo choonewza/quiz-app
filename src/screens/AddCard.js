@@ -1,5 +1,6 @@
 import {connect} from 'react-redux'
 import {NavigationActions} from 'react-navigation'
+
 import {
     StyleSheet,
     Text,
@@ -13,7 +14,7 @@ import React, {Component} from 'react'
 import {addCard} from '../actions'
 import {addCardToDeck} from '../utils/api'
 import {orange, white} from '../utils/colors'
-import SubmitButton from './SubmitButton'
+import SubmitButton from '../components/SubmitButton'
 
 class AddCard extends Component {
 

@@ -6,15 +6,15 @@ import {StyleSheet, Text, View, Platform} from 'react-native';
 import logger from 'redux-logger';
 import React from 'react';
 
+import { setLocalNotification, clearLocalNotification } from './src/utils/helpers'
 import {purple, white} from './src/utils/colors'
-import AddCard from './src/components/AddCard'
-import AddDeck from './src/components/AddDeck'
-import DeckList from './src/components/DeckList'
-import DeckView from './src/components/DeckView'
-import Quiz from './src/components/Quiz'
+import AddCard from './src/screens/AddCard'
+import AddDeck from './src/screens/AddDeck'
+import DeckList from './src/screens/DeckList'
+import DeckView from './src/screens/DeckView'
+import Quiz from './src/screens/Quiz'
 import reducer from './src/reducers'
 import StatusBar from './src/components/StatusBar'
-import { setLocalNotification, clearLocalNotification } from './src/utils/helpers'
 
 const Tabs = createBottomTabNavigator({
   DeckList: {

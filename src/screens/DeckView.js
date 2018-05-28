@@ -2,10 +2,10 @@ import {connect} from 'react-redux'
 import {StyleSheet, Text, View} from 'react-native'
 import React, {Component} from 'react'
 
-import {purple, white, red, orange} from '../utils/colors'
-import {getData} from '../utils/api'
-import ActionButton from './ActionButton'
 import {getCardsLength} from '../utils/helpers'
+import {getData} from '../utils/api'
+import {purple, white, red, orange} from '../utils/colors'
+import ActionButton from '../components/ActionButton'
 
 class DeckView extends Component {
     render() {
